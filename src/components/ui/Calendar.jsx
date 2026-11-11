@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
@@ -40,8 +40,10 @@ function Calendar({ value, onChange, onErrorClear, hasError, errorId }) {
     const initialDate = selectedDate || new Date()
     return new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
   })
+  const [popoverPosition, setPopoverPosition] = useState(null)
   const containerRef = useRef(null)
   const triggerRef = useRef(null)
+  const popoverRef = useRef(null)
 
   useEffect(() => {
     const selectedDate = parseDate(value)
@@ -76,7 +78,66 @@ function Calendar({ value, onChange, onErrorClear, hasError, errorId }) {
     }
   }, [isOpen])
 
-  const selectedDate = parseDate(value)
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      setPopoverPosition(null)
+      return undefined
+    }
+
+    const updatePosition = () => {
+      const trigger = triggerRef.current
+      const popover = popoverRef.current
+      const container = containerRef.current
+
+      if (!trigger || !popover || !container) {
+        return
+      }
+
+      const triggerRect = trigger.getBoundingClientRect()
+      const popoverRect = popover.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      const edgeGap = 8
+      const gap = 8
+      const dialogRect = trigger.closest('.ui-dialog-content')?.getBoundingClientRect()
+      const boundary = dialogRect || {
+        left: 0,
+        right: document.documentElement.clientWidth,
+        top: 0,
+        bottom: window.innerHeight,
+      }
+      const belowTop = triggerRect.bottom + gap
+      const roomBelow = boundary.bottom - belowTop - edgeGap
+      const roomAbove = triggerRect.top - gap - boundary.top - edgeGap
+      const top =
+        roomBelow >= popoverRect.height
+          ? belowTop
+          : roomAbove >= popoverRect.height
+            ? triggerRect.top - popoverRect.height - gap
+            : Math.max(boundary.top + edgeGap, boundary.bottom - popoverRect.height - edgeGap)
+      const minLeft = boundary.left + edgeGap
+      const maxLeft = Math.max(minLeft, boundary.right - popoverRect.width - edgeGap)
+      const left = Math.max(minLeft, Math.min(triggerRect.left, maxLeft))
+
+      setPopoverPosition({
+        top: top - containerRect.top,
+        left: left - containerRect.left,
+      })
+    }
+
+    updatePosition()
+    window.addEventListener('resize', updatePosition)
+    window.addEventListener('scroll', updatePosition, true)
+    window.visualViewport?.addEventListener('resize', updatePosition)
+    window.visualViewport?.addEventListener('scroll', updatePosition)
+
+    return () => {
+      window.removeEventListener('resize', updatePosition)
+      window.removeEventListener('scroll', updatePosition, true)
+      window.visualViewport?.removeEventListener('resize', updatePosition)
+      window.visualViewport?.removeEventListener('scroll', updatePosition)
+    }
+  }, [isOpen])
+
   const todayValue = toDateValue(new Date())
   const monthLabel = new Intl.DateTimeFormat('en-US', {
     month: 'long',
@@ -120,7 +181,13 @@ function Calendar({ value, onChange, onErrorClear, hasError, errorId }) {
       </button>
 
       {isOpen ? (
-        <div className="calendar-popover" role="dialog" aria-label="Choose due date">
+        <div
+          ref={popoverRef}
+          className="calendar-popover"
+          role="dialog"
+          aria-label="Choose due date"
+          style={popoverPosition || undefined}
+        >
           <div className="calendar-popover__header">
             <strong>{monthLabel}</strong>
             <div className="calendar-popover__month-actions">

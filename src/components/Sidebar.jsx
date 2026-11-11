@@ -19,52 +19,52 @@ const navConfig = [
 function Sidebar({ activeView, onSelectView, isMobileOpen, onClose }) {
   const contents = (
     <>
-        <div className="sidebar__header">
-          <div className="brand-mark">T</div>
-          <div className="brand-copy">
-            <span className="brand-copy__name">TaskFlow</span>
-          </div>
-          <Button
+      <div className="sidebar__header">
+        <div className="brand-mark">T</div>
+        <div className="brand-copy">
+          <span className="brand-copy__name">TaskFlow</span>
+        </div>
+        <Button
+          type="button"
+          variant="icon"
+          className="sidebar__close"
+          onClick={onClose}
+          aria-label="Close sidebar"
+        >
+          <X size={18} />
+        </Button>
+      </div>
+
+      <nav className="sidebar__nav" aria-label="Main navigation">
+        {navConfig.map(({ id, label, icon: Icon }) => (
+          <button
+            key={id}
             type="button"
-            variant="icon"
-            className="sidebar__close"
-            onClick={onClose}
-            aria-label="Close sidebar"
+            className={
+              activeView === id ? "nav-item nav-item--active" : "nav-item"
+            }
+            onClick={() => {
+              onSelectView(id);
+              onClose();
+            }}
           >
-            <X size={18} />
-          </Button>
-        </div>
+            <span className="nav-item__icon">
+              <Icon size={16} />
+            </span>
+            {label}
+          </button>
+        ))}
+      </nav>
 
-        <nav className="sidebar__nav" aria-label="Main navigation">
-          {navConfig.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              type="button"
-              className={
-                activeView === id ? "nav-item nav-item--active" : "nav-item"
-              }
-              onClick={() => {
-                onSelectView(id);
-                onClose();
-              }}
-            >
-              <span className="nav-item__icon">
-                <Icon size={16} />
-              </span>
-              {label}
-            </button>
-          ))}
-        </nav>
-
-        <div className="sidebar__profile">
-          <div className="avatar">JN</div>
-          <div>
-            <strong>Jordan</strong>
-            <small>Product Lead</small>
-          </div>
+      <div className="sidebar__profile">
+        <div className="avatar">JN</div>
+        <div>
+          <strong>Jordan</strong>
+          <small>Product Lead</small>
         </div>
+      </div>
     </>
-  )
+  );
 
   return (
     <>
