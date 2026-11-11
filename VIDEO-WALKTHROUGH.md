@@ -4,7 +4,7 @@
 Start by explaining that this is a task management dashboard built as a frontend assessment. Mention that it is built with React and Vite, and that the app focuses on practical workflow management rather than static mock data. You can say that the dashboard is meant to help users create, track, and complete tasks with a clean and minimal operational view.
 
 ## 0:40–1:30 — UI and Dashboard
-Walk through the main layout: the sidebar, the top header, the summary cards, and the task board. Point out the four metric cards for total tasks, pending, in progress, and completed work. Then explain the filter toolbar, the search box, and the add-task button. Point out that the task form and delete confirmation use accessible Radix-backed shadcn/ui-style components, customized to match the dashboard rather than the default shadcn theme.
+Walk through the main layout: the sidebar, the top header, the summary cards, and the task board. Point out the four metric cards for total tasks, pending, in progress, and completed work. Then explain the filter toolbar, the search box, and the add-task button. Point out that the task form and delete confirmation use accessible Radix-backed shadcn/ui-style components, customized to match the dashboard rather than the default shadcn theme. Show the due-date calendar's month navigation and Today/Clear shortcuts.
 
 ## 1:30–2:30 — Functionality
 Demonstrate the main task interactions:

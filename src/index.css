@@ -844,6 +844,181 @@ p {
   border-color: var(--danger);
 }
 
+.calendar-picker {
+  position: relative;
+  width: 100%;
+}
+
+.calendar-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-alt);
+  color: var(--text);
+  font-family: 'Poppins', 'Montreal';
+  font-size: 0.84rem;
+  font-weight: 500;
+  text-align: left;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.calendar-trigger:hover {
+  background: #fff;
+  border-color: #d2d8e2;
+}
+
+.calendar-trigger:focus-visible {
+  outline: 3px solid rgba(52, 103, 255, 0.22);
+  outline-offset: 2px;
+}
+
+.calendar-trigger[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.calendar-trigger svg {
+  flex: 0 0 auto;
+  color: var(--muted);
+}
+
+.calendar-trigger__placeholder {
+  color: #788192;
+}
+
+.calendar-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 130;
+  width: min(320px, calc(100vw - 48px));
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16);
+  animation: ui-pop-in 120ms ease-out;
+}
+
+.calendar-popover__header,
+.calendar-popover__month-actions,
+.calendar-popover__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-popover__header {
+  min-height: 34px;
+  margin-bottom: 8px;
+  padding: 0 2px;
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.calendar-popover__month-actions {
+  gap: 4px;
+}
+
+.calendar-popover__month-actions button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-strong);
+}
+
+.calendar-popover__month-actions button:hover {
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 3px;
+  text-align: center;
+}
+
+.calendar-grid__weekday {
+  display: grid;
+  height: 30px;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.calendar-grid__day {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-family: 'Poppins', 'Montreal';
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.calendar-grid__day:hover {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.calendar-grid__day:focus-visible,
+.calendar-popover button:focus-visible {
+  outline: 2px solid rgba(52, 103, 255, 0.45);
+  outline-offset: 1px;
+}
+
+.calendar-grid__day--outside {
+  color: #9aa1ae;
+}
+
+.calendar-grid__day--today:not(.calendar-grid__day--selected) {
+  border-color: rgba(52, 103, 255, 0.45);
+  color: var(--primary-strong);
+}
+
+.calendar-grid__day--selected,
+.calendar-grid__day--selected:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.calendar-popover__footer {
+  margin-top: 8px;
+  padding: 8px 2px 0;
+  border-top: 1px solid var(--border);
+}
+
+.calendar-popover__footer button {
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--primary-strong);
+  font-family: 'Poppins', 'Montreal';
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.calendar-popover__footer button:hover {
+  text-decoration: underline;
+}
+
 .searchbar .ui-input {
   min-height: 42px;
   padding: 0;

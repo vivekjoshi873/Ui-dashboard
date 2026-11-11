@@ -5,6 +5,7 @@ import Button from './ui/Button'
 import Input from './ui/Input'
 import Textarea from './ui/Textarea'
 import Select from './ui/Select'
+import Calendar from './ui/Calendar'
 import {
   Dialog,
   DialogClose,
@@ -143,13 +144,12 @@ function TaskForm({ isOpen, task, onClose, onSubmit, submitLabel }) {
 
             <label className="field">
               <span>Due date <span className="field-required" aria-hidden="true">*</span></span>
-              <Input
-                name="dueDate"
-                type="date"
+              <Calendar
                 value={formState.dueDate}
-                onChange={handleChange}
-                aria-invalid={Boolean(errors.dueDate)}
-                aria-describedby={errors.dueDate ? 'task-date-error' : undefined}
+                onChange={(value) => setFormState((current) => ({ ...current, dueDate: value }))}
+                onErrorClear={() => setErrors((current) => ({ ...current, dueDate: '' }))}
+                hasError={Boolean(errors.dueDate)}
+                errorId="task-date-error"
               />
               {errors.dueDate ? (
                 <small className="field-error" id="task-date-error">{errors.dueDate}</small>

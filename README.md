@@ -97,7 +97,7 @@ This keeps tasks available after a page refresh without requiring a backend or s
 
 ## 9. Application Architecture
 - Component structure: the app is split into reusable UI pieces such as sidebar, header, task cards, form modal, filters, and empty states.
-- UI primitives: local shadcn/ui-style wrappers use Radix UI for accessible dialogs, confirmation, selects, dropdown menus, tooltips, and the mobile navigation sheet, while project-specific CSS preserves the dashboard's visual identity.
+- UI primitives: local shadcn/ui-style wrappers use Radix UI for accessible dialogs, confirmation, selects, dropdown menus, tooltips, and the mobile navigation sheet. A project-themed calendar picker provides month navigation, date selection, Today, and Clear actions without changing the saved `YYYY-MM-DD` task date format. Project-specific CSS preserves the dashboard's visual identity.
 - State management: the top-level app keeps task data and filter state in React state, while the dashboard page handles task interactions.
 - Custom hook: `useLocalStorage` centralizes reading and writing browser storage.
 - Search and filtering logic: tasks are filtered by title, status, priority, and active dashboard category before rendering.
